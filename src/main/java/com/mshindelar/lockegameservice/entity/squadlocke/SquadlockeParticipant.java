@@ -25,8 +25,8 @@ public class SquadlockeParticipant {
         this.seed = 0;
     }
 
-    public void ready() {
-        setPlayerState(PlayerState.READY);
+    public void readyUp() {
+        this.setPlayerState(PlayerState.READY);
     }
 
     @Override

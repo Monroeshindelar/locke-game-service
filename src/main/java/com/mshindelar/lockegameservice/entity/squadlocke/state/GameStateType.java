@@ -1,4 +1,4 @@
-package com.mshindelar.lockegameservice.entity.squadlocke;
+package com.mshindelar.lockegameservice.entity.squadlocke.state;
 
 public enum GameStateType {
     REGISTRATION, CHECKPOINT, TOURNAMENT, FINALIZED

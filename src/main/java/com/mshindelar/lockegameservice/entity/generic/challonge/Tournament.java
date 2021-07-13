@@ -112,8 +112,8 @@ public class Tournament {
     @JsonProperty("pubilc_predictions_before_start_time")
     private boolean publicPredictionsBeforeStartTime;
     private boolean ranked;
-//    @JsonProperty("grand_finals_modifier")
-//    private String grandFinalsModifier;
+    @JsonProperty("grand_finals_modifier")
+    private String grandFinalsModifier;
     @JsonProperty("predict_the_losers_bracket")
     private boolean predictLosersBracket;
 //    private String spam;
