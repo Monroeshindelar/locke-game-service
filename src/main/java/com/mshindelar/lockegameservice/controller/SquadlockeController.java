@@ -38,19 +38,21 @@ public class SquadlockeController {
     private static Logger logger = LoggerFactory.getLogger(SquadlockeController.class);
 
     @PutMapping("create")
-    private Squadlocke create(@RequestParam(name = "participantId") String participantId, @RequestBody SquadlockeSettings squadlockeSettings) throws Exception {
+    //private Squadlocke create(@RequestParam(name = "participantId") String participantId, @RequestBody SquadlockeSettings squadlockeSettings) throws Exception {
+    private Squadlocke create(@RequestParam(name = "participantId") String participantId) throws Exception {
         logger.info("Starting squadlocke game creation for " + participantId);
         SquadlockeParticipant creator = new SquadlockeParticipant(participantId);
 
         Set<SquadlockeParticipant> participants = new HashSet<>();
         participants.add(creator);
+        SquadlockeSettings squadlockeSettings = new SquadlockeSettings();
 
         GameGeneration gameGeneration = gameGenerationRepository.findByGenerationId(squadlockeSettings.getGenerationId()).orElse(null);
 
-        if(gameGeneration == null) {
-            logger.error("Generation with id " + squadlockeSettings.getGenerationId() + " could not be located.");
-            return null;
-        }
+//        if(gameGeneration == null) {
+//            logger.error("Generation with id " + squadlockeSettings.getGenerationId() + " could not be located.");
+//            return null;
+//        }
 
         Squadlocke squadlocke = new Squadlocke();
         squadlocke.setCreator(creator);
