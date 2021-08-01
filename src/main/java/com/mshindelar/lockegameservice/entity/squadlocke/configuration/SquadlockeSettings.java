@@ -1,6 +1,7 @@
 package com.mshindelar.lockegameservice.entity.squadlocke.configuration;
 
-import com.mshindelar.lockegameservice.entity.generic.GameGeneration;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeDifficultyMode;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.Accessibility;
 import lombok.Getter;
@@ -10,18 +11,18 @@ import lombok.Setter;
 @Setter
 public class SquadlockeSettings {
     private String name;
-    //private GameGeneration generation;
     private int generationId;
     private int checkpointFrequency;
-    private double voteThreshhold;
+    private double voteThreshold;
     private SquadlockeDifficultyMode difficultyMode;
     private TournamentSettings tournamentSettings;
     private Accessibility accessibility;
 
-    public SquadlockeSettings() {
-        this.generationId = -1;
+    @JsonCreator
+    public SquadlockeSettings(@JsonProperty(value = "generationId", required = true) int generationId) {
+        this.generationId = generationId;
         this.checkpointFrequency = 2;
-        this.voteThreshhold = 51;
+        this.voteThreshold = 51;
         this.difficultyMode = SquadlockeDifficultyMode.EASY;
         this.tournamentSettings = new TournamentSettings();
         this.accessibility = Accessibility.INVITE;

@@ -38,27 +38,23 @@ public class SquadlockeController {
     private static Logger logger = LoggerFactory.getLogger(SquadlockeController.class);
 
     @PutMapping("create")
-    //private Squadlocke create(@RequestParam(name = "participantId") String participantId, @RequestBody SquadlockeSettings squadlockeSettings) throws Exception {
-    private Squadlocke create(@RequestParam(name = "participantId") String participantId) throws Exception {
+    private Squadlocke create(@RequestParam(name = "participantId") String participantId, @RequestBody SquadlockeSettings squadlockeSettings) {
         logger.info("Starting squadlocke game creation for " + participantId);
         SquadlockeParticipant creator = new SquadlockeParticipant(participantId);
 
         Set<SquadlockeParticipant> participants = new HashSet<>();
         participants.add(creator);
-        SquadlockeSettings squadlockeSettings = new SquadlockeSettings();
 
-        GameGeneration gameGeneration = gameGenerationRepository.findByGenerationId(squadlockeSettings.getGenerationId()).orElse(null);
-
-//        if(gameGeneration == null) {
-//            logger.error("Generation with id " + squadlockeSettings.getGenerationId() + " could not be located.");
-//            return null;
-//        }
+        GameGeneration gameGeneration = gameGenerationRepository.findByGenerationId(squadlockeSettings.getGenerationId()).orElseThrow(() -> {
+            logger.error("Generation with id " + squadlockeSettings.getGenerationId() + " could not be located.");
+            return new RuntimeException("Invalid Generation ID: " + squadlockeSettings.getGenerationId());
+        });
 
         Squadlocke squadlocke = new Squadlocke();
         squadlocke.setCreator(creator);
         squadlocke.setSettings(squadlockeSettings);
-
         squadlocke.setParticipants(participants);
+
         squadlocke.setGameState(new RegistrationGameState());
         squadlocke.setCreatedAt(new Date());
         squadlocke = squadlockeRepository.save(squadlocke);
@@ -142,7 +138,7 @@ public class SquadlockeController {
     }
 
     @PostMapping("{gameId}/participants/{participantId}/ready")
-    private Squadlocke ready(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId) throws Exception {
+    private Squadlocke ready(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId) {
         Squadlocke squadlocke = squadlockeRepository.findById(gameId).orElse(null);
 
         if(squadlocke == null) return null;
