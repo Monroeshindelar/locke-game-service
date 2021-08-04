@@ -12,6 +12,11 @@ import java.time.ZoneOffset;
 @ControllerAdvice
 public class RestExceptionHandler{
 
+    @ExceptionHandler(GameResourceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleGameResourceNotFoundException(GameResourceNotFoundException ex) {
+        return buildApiErrorResponse(ex.getMessage(), ex.toString(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         return buildApiErrorResponse(ex.getMessage(), ex.toString(), HttpStatus.BAD_REQUEST);

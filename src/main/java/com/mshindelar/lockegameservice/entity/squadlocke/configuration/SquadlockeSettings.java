@@ -17,6 +17,8 @@ public class SquadlockeSettings {
     private SquadlockeDifficultyMode difficultyMode;
     private TournamentSettings tournamentSettings;
     private Accessibility accessibility;
+    private int maxPlayerCount;
+    private int minPlayerCount;
 
     @JsonCreator
     public SquadlockeSettings(@JsonProperty(value = "generationId", required = true) int generationId) {
@@ -26,6 +28,8 @@ public class SquadlockeSettings {
         this.difficultyMode = SquadlockeDifficultyMode.EASY;
         this.tournamentSettings = new TournamentSettings();
         this.accessibility = Accessibility.INVITE;
+        this.maxPlayerCount = -1;
+        this.minPlayerCount = -1;
     }
 
     public TournamentSettings getTournamentSettings() { return new TournamentSettings(this.tournamentSettings); }
