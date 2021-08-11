@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @ControllerAdvice
-public class RestExceptionHandler{
+public class RestExceptionHandler {
 
     @ExceptionHandler(GameResourceNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleGameResourceNotFoundException(GameResourceNotFoundException ex) {
