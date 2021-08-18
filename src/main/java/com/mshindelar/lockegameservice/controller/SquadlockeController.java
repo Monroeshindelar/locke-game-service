@@ -1,6 +1,5 @@
 package com.mshindelar.lockegameservice.controller;
 
-import com.mshindelar.lockegameservice.configuration.LockeGameServiceConfiguration;
 import com.mshindelar.lockegameservice.entity.generic.pokemon.Pokemon;
 import com.mshindelar.lockegameservice.entity.squadlocke.Squadlocke;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
@@ -12,7 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/games/squadlocke")
@@ -20,9 +20,6 @@ import java.security.Principal;
 public class SquadlockeController {
     @Autowired
     private SquadlockeService squadlockeService;
-
-    @Autowired
-    private LockeGameServiceConfiguration lockeGameServiceConfiguration;
 
     private static Logger logger = LoggerFactory.getLogger(SquadlockeController.class);
 
@@ -32,7 +29,7 @@ public class SquadlockeController {
     }
 
     @GetMapping("{gameId}")
-    private Squadlocke get(@PathVariable("gameId") String gameId) {
+    private Squadlocke get(@PathVariable("gameId") String gameId, @RequestHeader Map<String, String> headers) {
         return this.squadlockeService.getSquadlocke(gameId);
     }
 
@@ -88,5 +85,10 @@ public class SquadlockeController {
     private SquadlockeParticipant setImmunitySlot(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId,
                                                   @RequestBody Pokemon pokemon) {
         return this.squadlockeService.setImmunitySlot(gameId, participantId, pokemon);
+    }
+
+    @GetMapping("/by-userid/{userId}")
+    private List<Squadlocke> getSquadlockeByUserId(@PathVariable("userId") String userId) {
+        return this.squadlockeService.getSquadlockeByUserId(userId);
     }
 }
