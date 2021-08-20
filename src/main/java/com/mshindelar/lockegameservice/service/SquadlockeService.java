@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -210,4 +211,7 @@ public class SquadlockeService {
         return participant;
     }
 
+    public List<Squadlocke> getSquadlockeByUserId(String userId) {
+        return this.squadlockeRepository.findByParticipantId(userId);
+    }
 }
