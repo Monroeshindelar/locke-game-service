@@ -20,6 +20,10 @@ public class GameGenerationService {
     private static Logger logger = LoggerFactory.getLogger(GameGenerationController.class);
 
     public List<Integer> getAllGenerationIds() {
-        return this.gameGenerationRepository.findAll().stream().map(GameGeneration::getGenerationId).collect(Collectors.toList());
+        return this.gameGenerationRepository.findAll()
+                .stream()
+                .map(GameGeneration::getGenerationId)
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
