@@ -36,8 +36,8 @@ public class SquadlockeService {
     @Autowired
     private SquadlockeRepository squadlockeRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+//    @Autowired
+//    private RestTemplate restTemplate;
 
     @Autowired
     private LockeGameServiceConfiguration gameServiceConfiguration;
@@ -157,7 +157,7 @@ public class SquadlockeService {
             String uri = this.gameServiceConfiguration.getTournament().getUri() + "tournaments.json?api_key=" +
                     this.gameServiceConfiguration.getTournament().getKey() + "&tournament[name]=gameServiceTestTwo";
 
-            Tournament t = restTemplate.postForObject(uri, null, Tournament.class);
+//            Tournament t = restTemplate.postForObject(uri, null, Tournament.class);
 
             int a = 1;
         }
