@@ -93,7 +93,7 @@ public class SquadlockeController {
     }
 
     @GetMapping("/joinable")
-    private List<Squadlocke> getJoinableGames() {
-        return this.squadlockeService.getJoinableGames();
+    private List<Squadlocke> getJoinableGames(@RequestParam("userId") String userId) {
+        return this.squadlockeService.getJoinableGames(userId);
     }
 }

@@ -234,7 +234,7 @@ public class SquadlockeService {
         return this.squadlockeRepository.findByParticipantId(userId);
     }
 
-    public List<Squadlocke> getJoinableGames() {
-        return this.squadlockeRepository.findJoinableGames();
+    public List<Squadlocke> getJoinableGames(String userId) {
+        return this.squadlockeRepository.findJoinableGames(userId);
     }
 }
