@@ -14,4 +14,7 @@ public interface SquadlockeRepository extends MongoRepository<Squadlocke, String
 
     @Query("{ 'participants._id': ?0 }")
     List<Squadlocke> findByParticipantId(String participantId);
+
+    @Query("{ 'settings.accessibility': 'OPEN', 'gameState.gameStateType': 'REGISTRATION' }")
+    List<Squadlocke> findJoinableGames();
 }

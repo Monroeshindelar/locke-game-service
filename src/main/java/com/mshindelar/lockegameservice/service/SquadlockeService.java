@@ -1,11 +1,14 @@
 package com.mshindelar.lockegameservice.service;
 
+import com.mshindelar.lockegameservice.configuration.LockeGameServiceConfiguration;
 import com.mshindelar.lockegameservice.controller.SquadlockeController;
 import com.mshindelar.lockegameservice.entity.generic.GameGeneration;
+import com.mshindelar.lockegameservice.entity.generic.challonge.Tournament;
 import com.mshindelar.lockegameservice.entity.generic.pokemon.Pokemon;
 import com.mshindelar.lockegameservice.entity.squadlocke.Squadlocke;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
 import com.mshindelar.lockegameservice.entity.squadlocke.configuration.SquadlockeSettings;
+import com.mshindelar.lockegameservice.entity.squadlocke.configuration.TournamentSettings;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.CheckpointGameState;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.GameStateType;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.RegistrationGameState;
@@ -19,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -31,6 +35,12 @@ public class SquadlockeService {
 
     @Autowired
     private SquadlockeRepository squadlockeRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private LockeGameServiceConfiguration gameServiceConfiguration;
 
     @Autowired
     private GameGenerationRepository gameGenerationRepository;
@@ -141,6 +151,15 @@ public class SquadlockeService {
 
         if(squadlocke.allPlayersReady()) {
             //TODO: Start tournament
+            //TournamentSettings tournamentSettings = new TournamentSettings();
+            //tournamentSettings.setName("LW-20 test tournament");
+
+            String uri = this.gameServiceConfiguration.getTournament().getUri() + "tournaments.json?api_key=" +
+                    this.gameServiceConfiguration.getTournament().getKey() + "&tournament[name]=gameServiceTestTwo";
+
+            Tournament t = restTemplate.postForObject(uri, null, Tournament.class);
+
+            int a = 1;
         }
 
         squadlockeRepository.save(squadlocke);
@@ -213,5 +232,9 @@ public class SquadlockeService {
 
     public List<Squadlocke> getSquadlockeByUserId(String userId) {
         return this.squadlockeRepository.findByParticipantId(userId);
+    }
+
+    public List<Squadlocke> getJoinableGames() {
+        return this.squadlockeRepository.findJoinableGames();
     }
 }

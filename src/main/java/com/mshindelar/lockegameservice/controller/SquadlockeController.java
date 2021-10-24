@@ -91,4 +91,9 @@ public class SquadlockeController {
     private List<Squadlocke> getSquadlockeByUserId(@PathVariable("userId") String userId) {
         return this.squadlockeService.getSquadlockeByUserId(userId);
     }
+
+    @GetMapping("/joinable")
+    private List<Squadlocke> getJoinableGames() {
+        return this.squadlockeService.getJoinableGames();
+    }
 }
