@@ -184,40 +184,11 @@ public class SquadlockeService {
                                   boolean filterSpeciesClause) {
         Squadlocke squadlocke = this.getSquadlocke(gameId);
 
-        SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
-
-        // If the location id exists in the box already, there are two options
-        // 1. The user is trying to get an encounter for a route in which they
-        //    have already encountered a pokemon. Not valid.
-        // 2. The user did not specify that they would like to filter pokemon
-        //    that they already have from the results and they encountered a
-        //    pokemon that meets the species clause requirements. Valid.
-        if(participant.getBox().containsEncounterForLocation(locationId)) {
-            SquadlockePokemon p = participant.getBox().getEncounterForLocation(locationId);
-
-            // This is an unfinished dummy encounter
-            if(p.getNickname() == null) {
-                // If this isn't a species clause reroll
-                if(!participant.getBox().containsSpecies(p)) {
-                    // Nickname is an indicator that the pokemon is "encountered"
-                    // Set it so that we know it's no longer a placeholder for an
-                    // unfinished encounter
-                    p.setNickname(p.getModel().getName());
-                    return null;
-                } else {
-                    // The dummy was subject to the species clause
-                    // Remove it so we don't have multiple encounters
-                    // with the same location id floating around in the
-                    // box
-                    participant.getBox().remove(p);
-                }
-            } else {
-                // Pokemon with location id exists in the box and has been
-                // nicknamed. This is just an attempt to get another encounter,
-                // shame!
-                return null;
-            }
+        if(squadlocke.getGameState().getGameStateType() != GameStateType.CHECKPOINT) {
+            throw new ImproperGameStateException("Cannot get an encounter outside of the checkpoint gamestate.");
         }
+
+        SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
         Encounter encounter = this.encounterGenerationService.getEncounter(participant, "" + squadlocke.getSettings().getGenerationId(),
                 locationId, encounterMode, squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
@@ -239,30 +210,21 @@ public class SquadlockeService {
 
         this.squadlockeRepository.save(squadlocke);
 
+        encounter.setModel(pokemonModel);
+
         return encounter;
     }
 
-    public SquadlockePokemon saveEncounter(String gameId, String participantId, String locationId, String nickname, int abilityIndex, Nature nature,
-                                           boolean isShiny) {
+    public SquadlockePokemon updateEncounter(String gameId, String participantId, String locationId, String nickname, int abilityIndex, Nature nature,
+                                             boolean isShiny) {
         Squadlocke squadlocke = this.getSquadlocke(gameId);
 
         SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
-        SquadlockePokemon pokemon = participant.getBox().getEncounterForLocation(locationId);
-
-        if(nickname == null) {
-            pokemon.setNickname(pokemon.getModel().getName());
-        } else {
-            // TODO: Do some filtering, we have degenerate friends...
-            pokemon.setNickname(nickname);
-            pokemon.setAbility(pokemon.getModel().getAbilities().get(abilityIndex));
-            pokemon.setNature(nature);
-            pokemon.setShiny(isShiny);
-            pokemon.setAlive(true);
-        }
+        participant.getBox().updateEncounter(locationId, nickname, abilityIndex, nature, isShiny);
 
         this.squadlockeRepository.save(squadlocke);
 
-        return pokemon;
+        return participant.getBox().getEncounterForLocation(locationId);
     }
 }

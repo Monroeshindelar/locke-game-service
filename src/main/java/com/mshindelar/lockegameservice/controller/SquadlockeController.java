@@ -58,23 +58,19 @@ public class SquadlockeController {
         return this.squadlockeService.finalizeSquadlocke(gameId);
     }
 
-    @GetMapping("{gameId}/encounter")
-    private EncounterDto getEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId, @RequestParam("locationId") String locationId,
-                                   @RequestParam("encounterMode") EncounterMode encounterMode, @RequestParam("filterSpeciesClause") boolean filterSpeciesClause) {
-        Encounter e = this.squadlockeService.getEncounter(gameId, participantId, locationId, encounterMode, filterSpeciesClause);
-
-        if(e == null) return null;
-
-        EncounterDto eDto = this.convertToDto(e);
-        return eDto;
+    @PostMapping("{gameId}/encounter")
+    private Encounter getEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId, @RequestParam("locationId") String locationId,
+                                   @RequestParam("encounterMode") EncounterMode encounterMode,
+                                   @RequestParam(value = "filterSpeciesClause", required = false, defaultValue = "false") boolean filterSpeciesClause) {
+        return this.squadlockeService.getEncounter(gameId, participantId, locationId, encounterMode, filterSpeciesClause);
     }
 
-    @PostMapping("{gameId}/encounter")
-    private SquadlockePokemon saveEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId,
+    @PostMapping("{gameId}/encounter/update")
+    private SquadlockePokemon updateEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId,
                                             @RequestParam("locationId") String locationId, @RequestParam("nickname") String nickname,
                                             @RequestParam("abilityIndex") int abilityIndex, @RequestParam("nature") Nature nature,
-                                            @RequestParam("isShiny") boolean isShiny) {
-        return this.squadlockeService.saveEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, isShiny);
+                                            @RequestParam(value = "isShiny", required = false, defaultValue = "false") boolean isShiny) {
+        return this.squadlockeService.updateEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, isShiny);
     }
 
     @GetMapping("{gameId}/participants/{participantId}")

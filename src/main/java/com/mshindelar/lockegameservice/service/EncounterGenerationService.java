@@ -31,4 +31,8 @@ public class EncounterGenerationService {
         EncounterGenerator encounterGenerator = this.encounterGeneratorFactory.getEncounterGenerator(settings.getEncounterProbability());
         return encounterGenerator.getEncounter(encounters);
     }
+
+    public List<Encounter> getAllEncountersForLocation(String generationId, String locationId) {
+        return this.encounterRepository.findAllEncountersForLocation(generationId, locationId);
+    }
 }

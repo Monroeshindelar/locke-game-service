@@ -10,13 +10,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class WeightedEncounterGenerator extends EncounterGenerator {
+
+    private UniformRandomProvider rng;
+
+    public WeightedEncounterGenerator() { this.rng = RandomSource.JDK.create(); }
+
     @Override
     public Encounter getEncounter(List<Encounter> encounters) {
         Map<Encounter, Double> probabilities = encounters.stream().collect(Collectors.toMap(Function.identity(), Encounter::getDefaultEncounterRate));
 
-        UniformRandomProvider rng = RandomSource.JDK.create();
-
-        DiscreteProbabilityCollectionSampler<Encounter> sampler = new DiscreteProbabilityCollectionSampler<>(rng, probabilities);
+        DiscreteProbabilityCollectionSampler<Encounter> sampler = new DiscreteProbabilityCollectionSampler<>(this.rng, probabilities);
         return sampler.sample();
     }
 }

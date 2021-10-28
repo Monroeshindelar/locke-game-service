@@ -1,5 +1,6 @@
 package com.mshindelar.lockegameservice.entity.EncounterGenerator;
 
+import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,4 +13,5 @@ public class Encounter {
     private EncounterMode mode;
     private int nationalDexNumber;
     private double defaultEncounterRate;
+    private Pokemon model;
 }
