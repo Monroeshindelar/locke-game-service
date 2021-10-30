@@ -1,6 +1,7 @@
 package com.mshindelar.lockegameservice.service;
 
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.*;
+import com.mshindelar.lockegameservice.entity.generic.GameGeneration;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
 import com.mshindelar.lockegameservice.repository.EncounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,12 @@ public class EncounterGenerationService {
 
     public List<Encounter> getAllEncountersForLocation(String generationId, String locationId) {
         return this.encounterRepository.findAllEncountersForLocation(generationId, locationId);
+    }
+
+    public List<EncounterMode> getAllEncounterModesForLocation(String generationId, String locationId) {
+        return this.encounterRepository.findAll().stream()
+                .map(Encounter::getMode)
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

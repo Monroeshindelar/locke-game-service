@@ -17,6 +17,4 @@ public interface EncounterRepository extends MongoRepository<Encounter, String> 
 
     @Query("{ generationId: ?0, gameId: ?1, locationId: ?2, mode: ?3 }")
     List<Encounter> findEncountersForLocationByMode(String generationId, int gameId, String locationId, EncounterMode mode);
-
-
 }
