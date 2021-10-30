@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface EncounterRepository extends MongoRepository<Encounter, String> {
 
-    @Query("{ generationId: ?0, locationId: ?1 }")
-    List<Encounter> findAllEncountersForLocation(String generationId, String locationId);
+    @Query("{ generationId: ?0, locationId: ?1, gameId: ?2}")
+    List<Encounter> findAllEncountersForLocation(String generationId, String locationId, int gameId);
 
     @Query("{ generationId: ?0, gameId: ?1, locationId: ?2 }")
     List<Encounter> findAllEncountersForGameAndLocation(String generationId, int gameId, String locationId);

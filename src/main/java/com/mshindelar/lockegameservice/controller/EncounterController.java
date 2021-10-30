@@ -23,8 +23,9 @@ public class EncounterController {
     private PokeApiClient pokeApiClient;
 
     @GetMapping("{generationId}/{locationId}")
-    List<Encounter> getAllEncountersForLocation(@PathVariable("generationId") String generationId, @PathVariable("locationId") String locationId) {
-        return this.encounterGenerationService.getAllEncountersForLocation(generationId, locationId)
+    List<Encounter> getAllEncountersForLocation(@PathVariable("generationId") String generationId, @PathVariable("locationId") String locationId,
+                                                @RequestParam("gameId") int gameId) {
+        return this.encounterGenerationService.getAllEncountersForLocation(generationId, locationId, gameId)
                 .stream()
                 .peek(e -> e.setModel(this.pokeApiClient.getPokemon(e.getNationalDexNumber())))
                 .collect(Collectors.toList());

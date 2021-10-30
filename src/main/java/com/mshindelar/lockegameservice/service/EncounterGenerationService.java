@@ -33,8 +33,8 @@ public class EncounterGenerationService {
         return encounterGenerator.getEncounter(encounters);
     }
 
-    public List<Encounter> getAllEncountersForLocation(String generationId, String locationId) {
-        return this.encounterRepository.findAllEncountersForLocation(generationId, locationId);
+    public List<Encounter> getAllEncountersForLocation(String generationId, String locationId, int gameId) {
+        return this.encounterRepository.findAllEncountersForLocation(generationId, locationId, gameId);
     }
 
     public List<EncounterMode> getAllEncounterModesForLocation(String generationId, String locationId) {
