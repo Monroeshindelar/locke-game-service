@@ -78,10 +78,11 @@ public class SquadlockeService {
         });
     }
 
-    public Squadlocke joinSquadlocke(String gameId, String participantId) {
+    public Squadlocke joinSquadlocke(String gameId, String participantId, String versionId, int starterId) {
         logger.info("Player " + participantId + " attempting to register for game " + gameId);
         Squadlocke squadlocke = this.getSquadlocke(gameId);
         SquadlockeParticipant squadlockeParticipant;
+
         try {
             squadlocke.getParticipantById(participantId);
             throw new DuplicateGameResourceException("User is already a participant.");
@@ -98,6 +99,18 @@ public class SquadlockeService {
          */
 
         squadlockeParticipant = new SquadlockeParticipant(participantId);
+
+        //TODO: Refactor gameId -> versionId and have it be of type String instead of int
+        squadlockeParticipant.setGameId(Integer.parseInt(versionId));
+
+        SquadlockePokemon starter = new SquadlockePokemon();
+        starter.setAlive(true);
+        starter.setEncounteredAt(new Date());
+        starter.setLocationId("starter");
+        starter.setModel(this.pokeApiClient.getPokemon(starterId));
+
+        squadlockeParticipant.getBox().add(starter);
+
         squadlocke.addParticipant(squadlockeParticipant);
 
         squadlockeRepository.save(squadlocke);
