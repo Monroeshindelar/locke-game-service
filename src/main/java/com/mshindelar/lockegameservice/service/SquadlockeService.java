@@ -23,10 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -188,7 +185,7 @@ public class SquadlockeService {
         SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
         Encounter encounter = this.encounterGenerationService.getEncounter(participant, "" + squadlocke.getSettings().getGenerationId(),
-                locationId, encounterMode, squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
+                locationId, Collections.singletonList(encounterMode), squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
 
         Pokemon pokemonModel = this.pokeApiClient.getPokemon(encounter.getNationalDexNumber());
 

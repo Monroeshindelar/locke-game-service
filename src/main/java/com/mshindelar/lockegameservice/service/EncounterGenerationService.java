@@ -19,9 +19,9 @@ public class EncounterGenerationService {
     @Autowired
     private EncounterGeneratorFactory encounterGeneratorFactory;
 
-    public Encounter getEncounter(SquadlockeParticipant participant, String generationId, String locationId, EncounterMode mode,
+    public Encounter getEncounter(SquadlockeParticipant participant, String generationId, String locationId, List<EncounterMode> modes,
                                   EncounterGeneratorSettings settings, boolean filterSpeciesClause) {
-        List<Encounter> encounters = this.encounterRepository.findEncountersForLocationByMode(generationId, participant.getGameId(), locationId, mode);
+        List<Encounter> encounters = this.encounterRepository.findEncountersForLocationByMode(generationId, participant.getGameId(), locationId, modes);
 
         if(filterSpeciesClause) {
             encounters = encounters.stream()
