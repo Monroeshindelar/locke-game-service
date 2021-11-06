@@ -22,6 +22,4 @@ public class PokeApiClient {
         String uri = POKEMON_ENDPOINT_URL + name;
         return this.restTemplate.getForObject(uri, Pokemon.class);
     }
-
-
 }

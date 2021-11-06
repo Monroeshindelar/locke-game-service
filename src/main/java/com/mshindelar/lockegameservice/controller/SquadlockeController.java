@@ -3,10 +3,7 @@ package com.mshindelar.lockegameservice.controller;
 import com.mshindelar.lockegameservice.dto.EncounterDto;
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.Encounter;
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.EncounterMode;
-import com.mshindelar.lockegameservice.entity.squadlocke.Nature;
-import com.mshindelar.lockegameservice.entity.squadlocke.Squadlocke;
-import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
-import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockePokemon;
+import com.mshindelar.lockegameservice.entity.squadlocke.*;
 import com.mshindelar.lockegameservice.entity.squadlocke.configuration.SquadlockeSettings;
 import com.mshindelar.lockegameservice.service.SquadlockeService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,8 +66,9 @@ public class SquadlockeController {
     private SquadlockePokemon updateEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId,
                                             @RequestParam("locationId") String locationId, @RequestParam("nickname") String nickname,
                                             @RequestParam("abilityIndex") int abilityIndex, @RequestParam("nature") Nature nature,
+                                            @RequestParam("gender") Gender gender,
                                             @RequestParam(value = "isShiny", required = false, defaultValue = "false") boolean isShiny) {
-        return this.squadlockeService.updateEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, isShiny);
+        return this.squadlockeService.updateEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, gender, isShiny);
     }
 
     @GetMapping("{gameId}/participants/{participantId}")

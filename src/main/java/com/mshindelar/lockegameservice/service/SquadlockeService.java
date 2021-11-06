@@ -5,10 +5,7 @@ import com.mshindelar.lockegameservice.controller.SquadlockeController;
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.Encounter;
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.EncounterMode;
 import com.mshindelar.lockegameservice.entity.generic.GameGeneration;
-import com.mshindelar.lockegameservice.entity.squadlocke.Nature;
-import com.mshindelar.lockegameservice.entity.squadlocke.Squadlocke;
-import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
-import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockePokemon;
+import com.mshindelar.lockegameservice.entity.squadlocke.*;
 import com.mshindelar.lockegameservice.entity.squadlocke.configuration.SquadlockeSettings;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.CheckpointGameState;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.GameStateType;
@@ -216,12 +213,12 @@ public class SquadlockeService {
     }
 
     public SquadlockePokemon updateEncounter(String gameId, String participantId, String locationId, String nickname, int abilityIndex, Nature nature,
-                                             boolean isShiny) {
+                                             Gender gender, boolean isShiny) {
         Squadlocke squadlocke = this.getSquadlocke(gameId);
 
         SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
-        participant.getBox().updateEncounter(locationId, nickname, abilityIndex, nature, isShiny);
+        participant.getBox().updateEncounter(locationId, nickname, abilityIndex, nature, gender, isShiny);
 
         this.squadlockeRepository.save(squadlocke);
 

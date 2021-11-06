@@ -153,7 +153,7 @@ public class Box {
     /**
      * Updates box information for a particular encounter
      */
-    public void updateEncounter(String locationId, String nickname, int abilityIndex, Nature nature, boolean isShiny) {
+    public void updateEncounter(String locationId, String nickname, int abilityIndex, Nature nature, Gender gender, boolean isShiny) {
         BoxItem item = this.getBoxItemForLocation(locationId);
 
         if(item == null) return;
@@ -164,6 +164,7 @@ public class Box {
         item.getPokemon().setNickname(nickname);
         item.getPokemon().setAbility(item.getPokemon().getModel().getAbilities().get(abilityIndex));
         item.getPokemon().setNature(nature);
+        item.getPokemon().setGender(gender);
         item.getPokemon().setShiny(isShiny);
     }
 

@@ -1,6 +1,7 @@
 package com.mshindelar.lockegameservice.pokeapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mshindelar.lockegameservice.pokeapi.PokeApiClient;
 import lombok.Data;
 
 import java.util.*;

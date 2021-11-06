@@ -14,6 +14,7 @@ public class SquadlockePokemon {
     private boolean isShiny;
     private String nickname;
     private Nature nature;
+    private Gender gender;
     private Ability ability;
     private String locationId;
     private Date encounteredAt;
