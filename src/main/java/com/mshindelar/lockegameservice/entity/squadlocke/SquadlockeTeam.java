@@ -1,7 +1,6 @@
 package com.mshindelar.lockegameservice.entity.squadlocke;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mshindelar.lockegameservice.entity.generic.pokemon.Pokemon;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,9 +11,9 @@ public class SquadlockeTeam {
     @JsonIgnore
     private static final int MAX_SIDEBOARD_SIZE = 2;
 
-    private Set<Pokemon> mainTeam;
-    private Set<Pokemon> sideBoard;
-    private Pokemon immunitySlot;
+    private Set<SquadlockePokemon> mainTeam;
+    private Set<SquadlockePokemon> sideBoard;
+    private SquadlockePokemon immunitySlot;
 
     public SquadlockeTeam() {
         mainTeam = new HashSet<>();
@@ -22,29 +21,29 @@ public class SquadlockeTeam {
         immunitySlot = null;
     }
 
-    public Set<Pokemon> getMainTeam() { return mainTeam; }
+    public Set<SquadlockePokemon> getMainTeam() { return mainTeam; }
 
-    public Set<Pokemon> getSideBoard() { return sideBoard; }
+    public Set<SquadlockePokemon> getSideBoard() { return sideBoard; }
 
-    public Pokemon getImmunitySlot() { return immunitySlot; }
+    public SquadlockePokemon getImmunitySlot() { return immunitySlot; }
 
-    public boolean addToTeam(Pokemon pokemon) {
+    public boolean addToTeam(SquadlockePokemon pokemon) {
         if(mainTeam.size() == MAX_TEAM_SIZE) return false;
         if(sideBoard.contains(pokemon)) return false;
         return mainTeam.add(pokemon);
     }
 
-    public boolean addToSideBoard(Pokemon pokemon) {
+    public boolean addToSideBoard(SquadlockePokemon pokemon) {
         if(sideBoard.size() == MAX_SIDEBOARD_SIZE) return false;
         if(mainTeam.contains(pokemon)) return false;
         return sideBoard.add(pokemon);
     }
 
-    public boolean removeFromTeam(Pokemon pokemon) { return mainTeam.remove(pokemon); }
+    public boolean removeFromTeam(SquadlockePokemon pokemon) { return mainTeam.remove(pokemon); }
 
-    public boolean removeFromSideboard(Pokemon pokemon) { return sideBoard.remove(pokemon); }
+    public boolean removeFromSideboard(SquadlockePokemon pokemon) { return sideBoard.remove(pokemon); }
 
-    public boolean setImmunitySlot(Pokemon pokemon) {
+    public boolean setImmunitySlot(SquadlockePokemon pokemon) {
         if(!mainTeam.contains(pokemon) && !sideBoard.contains(pokemon)) return false;
         this.immunitySlot = pokemon;
         return true;

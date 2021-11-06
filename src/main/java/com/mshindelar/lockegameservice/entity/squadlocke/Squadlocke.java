@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 @Document(collection = "squadlocke")
@@ -22,6 +21,7 @@ public class Squadlocke {
     private Set<SquadlockeParticipant> participants;
     private GameState gameState;
     private Date createdAt;
+    private int encounterTokens;
 
     public void addParticipant(SquadlockeParticipant squadlockeParticipant) {
         participants.add(squadlockeParticipant);
@@ -33,9 +33,7 @@ public class Squadlocke {
     }
 
     public boolean allPlayersReady() {
-        for(SquadlockeParticipant participant : participants) {
-            if(participant.getPlayerState() != PlayerState.READY) return false;
-        }
-        return true;
+        return this.participants.stream()
+                .anyMatch(p -> p.getPlayerState() != PlayerState.READY);
     }
 }

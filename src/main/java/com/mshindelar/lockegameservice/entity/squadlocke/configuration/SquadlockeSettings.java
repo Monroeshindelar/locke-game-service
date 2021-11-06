@@ -2,6 +2,9 @@ package com.mshindelar.lockegameservice.entity.squadlocke.configuration;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mongodb.client.model.vault.EncryptOptions;
+import com.mshindelar.lockegameservice.entity.EncounterGenerator.EncounterGeneratorFactory;
+import com.mshindelar.lockegameservice.entity.EncounterGenerator.EncounterGeneratorSettings;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeDifficultyMode;
 import com.mshindelar.lockegameservice.entity.squadlocke.state.Accessibility;
 import lombok.Getter;
@@ -16,6 +19,7 @@ public class SquadlockeSettings {
     private double voteThreshold;
     private SquadlockeDifficultyMode difficultyMode;
     private TournamentSettings tournamentSettings;
+    private EncounterGeneratorSettings encounterGeneratorSettings;
     private Accessibility accessibility;
     private int maxPlayerCount;
     private int minPlayerCount;
@@ -27,10 +31,13 @@ public class SquadlockeSettings {
         this.voteThreshold = 51;
         this.difficultyMode = SquadlockeDifficultyMode.EASY;
         this.tournamentSettings = new TournamentSettings();
+        this.encounterGeneratorSettings = new EncounterGeneratorSettings();
         this.accessibility = Accessibility.INVITE;
         this.maxPlayerCount = -1;
         this.minPlayerCount = -1;
     }
 
     public TournamentSettings getTournamentSettings() { return new TournamentSettings(this.tournamentSettings); }
+
+
 }
