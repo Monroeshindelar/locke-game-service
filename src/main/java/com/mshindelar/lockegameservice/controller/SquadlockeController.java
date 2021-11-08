@@ -73,6 +73,12 @@ public class SquadlockeController {
         return this.squadlockeService.updateEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, gender, isShiny);
     }
 
+    @PostMapping("{gameId}/participants/{participantId}/encounter/evolve")
+    private SquadlockePokemon evolveEncounter(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId,
+                                              @RequestParam("locationId") String locationId) {
+        return this.squadlockeService.evolveEncounter(gameId, participantId, locationId);
+    }
+
     @GetMapping("{gameId}/participants/{participantId}")
     private SquadlockeParticipant getParticipant(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId) {
         return this.squadlockeService.getParticipant(gameId, participantId);
