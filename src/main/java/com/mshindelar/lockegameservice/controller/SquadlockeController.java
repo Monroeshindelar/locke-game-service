@@ -99,4 +99,16 @@ public class SquadlockeController {
     private List<Squadlocke> getJoinableGames(@RequestParam("userId") String userId) {
         return this.squadlockeService.getJoinableGames(userId);
     }
+
+    @PostMapping("{gameId}/participants/{participantId}/team/add")
+    private SquadlockeParticipant addPokemonToTeam(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId,
+                                                   @RequestParam("locationId") String locationId) {
+        return this.squadlockeService.addPokemonToTeam(gameId, participantId, locationId);
+    }
+
+    @PostMapping("{gameId}/participants/{participantId}/team/remove")
+    private SquadlockeParticipant removePokemonFromTeam(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId,
+                                                        @RequestParam("locationId") String locationId) {
+        return this.squadlockeService.removePokemonFromTeam(gameId, participantId, locationId);
+    }
 }

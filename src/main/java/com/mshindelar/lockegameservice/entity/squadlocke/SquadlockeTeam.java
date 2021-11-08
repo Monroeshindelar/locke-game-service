@@ -30,6 +30,7 @@ public class SquadlockeTeam {
     public boolean addToTeam(SquadlockePokemon pokemon) {
         if(mainTeam.size() == MAX_TEAM_SIZE) return false;
         if(sideBoard.contains(pokemon)) return false;
+        if(!pokemon.isAlive()) return false;
         return mainTeam.add(pokemon);
     }
 

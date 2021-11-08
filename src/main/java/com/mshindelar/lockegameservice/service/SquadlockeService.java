@@ -263,4 +263,29 @@ public class SquadlockeService {
         this.squadlockeRepository.save(squadlocke);
         return pokemon;
     }
+
+    public SquadlockeParticipant addPokemonToTeam(String gameId, String participantId, String locationId) {
+        Squadlocke squadlocke = this.getSquadlocke(gameId);
+
+        SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
+
+        SquadlockePokemon pokemon = participant.getBox().getEncounterForLocation(locationId);
+        participant.getTeam().addToTeam(pokemon);
+
+        this.squadlockeRepository.save(squadlocke);
+        return participant;
+    }
+
+    public SquadlockeParticipant removePokemonFromTeam(String gameId, String participantId, String locationId) {
+        Squadlocke squadlocke = this.getSquadlocke(gameId);
+
+        SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
+
+        SquadlockePokemon pokemon = participant.getBox().getEncounterForLocation(locationId);
+
+        participant.getTeam().removeFromTeam(pokemon);
+
+        this.squadlockeRepository.save(squadlocke);
+        return participant;
+    }
 }
