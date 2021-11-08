@@ -10,7 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 public class GameGeneration {
-    public int generationId;
-    public List<Game> games;
-    public List<String> encounters;
+    private int generationId;
+    private List<Game> games;
+    private List<String> encounters;
+    private List<Integer> starterIds;
 }

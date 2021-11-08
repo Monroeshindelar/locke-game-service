@@ -7,6 +7,7 @@ import com.mshindelar.lockegameservice.entity.squadlocke.*;
 import com.mshindelar.lockegameservice.entity.squadlocke.configuration.SquadlockeSettings;
 import com.mshindelar.lockegameservice.service.SquadlockeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Request;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +42,9 @@ public class SquadlockeController {
     }
 
     @PostMapping("{gameId}/join")
-    private Squadlocke join(@PathVariable(name = "gameId") String gameId, @RequestParam(name = "participantId") String participantId) {
-        return this.squadlockeService.joinSquadlocke(gameId, participantId);
+    private Squadlocke join(@PathVariable(name = "gameId") String gameId, @RequestParam(name = "participantId") String participantId,
+                            @RequestParam("versionId") String versionId, @RequestParam("starterId") int starterId) {
+        return this.squadlockeService.joinSquadlocke(gameId, participantId, versionId, starterId);
     }
 
     @PostMapping("{gameId}/start")
@@ -69,6 +71,12 @@ public class SquadlockeController {
                                             @RequestParam("gender") Gender gender,
                                             @RequestParam(value = "isShiny", required = false, defaultValue = "false") boolean isShiny) {
         return this.squadlockeService.updateEncounter(gameId, participantId, locationId, nickname, abilityIndex, nature, gender, isShiny);
+    }
+
+    @PostMapping("{gameId}/participants/{participantId}/encounter/evolve")
+    private SquadlockePokemon evolveEncounter(@PathVariable("gameId") String gameId, @PathVariable("participantId") String participantId,
+                                              @RequestParam("locationId") String locationId) {
+        return this.squadlockeService.evolveEncounter(gameId, participantId, locationId);
     }
 
     @GetMapping("{gameId}/participants/{participantId}")

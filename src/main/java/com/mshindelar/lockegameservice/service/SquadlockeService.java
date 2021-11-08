@@ -14,6 +14,8 @@ import com.mshindelar.lockegameservice.exception.DuplicateGameResourceException;
 import com.mshindelar.lockegameservice.exception.GameResourceNotFoundException;
 import com.mshindelar.lockegameservice.exception.ImproperGameStateException;
 import com.mshindelar.lockegameservice.pokeapi.PokeApiClient;
+import com.mshindelar.lockegameservice.pokeapi.model.EvolutionChain;
+import com.mshindelar.lockegameservice.pokeapi.model.EvolutionChainItem;
 import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
 import com.mshindelar.lockegameservice.repository.GameGenerationRepository;
 import com.mshindelar.lockegameservice.repository.SquadlockeRepository;
@@ -78,10 +80,11 @@ public class SquadlockeService {
         });
     }
 
-    public Squadlocke joinSquadlocke(String gameId, String participantId) {
+    public Squadlocke joinSquadlocke(String gameId, String participantId, String versionId, int starterId) {
         logger.info("Player " + participantId + " attempting to register for game " + gameId);
         Squadlocke squadlocke = this.getSquadlocke(gameId);
         SquadlockeParticipant squadlockeParticipant;
+
         try {
             squadlocke.getParticipantById(participantId);
             throw new DuplicateGameResourceException("User is already a participant.");
@@ -98,6 +101,18 @@ public class SquadlockeService {
          */
 
         squadlockeParticipant = new SquadlockeParticipant(participantId);
+
+        //TODO: Refactor gameId -> versionId and have it be of type String instead of int
+        squadlockeParticipant.setGameId(Integer.parseInt(versionId));
+
+        SquadlockePokemon starter = new SquadlockePokemon();
+        starter.setAlive(true);
+        starter.setEncounteredAt(new Date());
+        starter.setLocationId("starter");
+        starter.setModel(this.pokeApiClient.getPokemon(starterId));
+
+        squadlockeParticipant.getBox().add(starter);
+
         squadlocke.addParticipant(squadlockeParticipant);
 
         squadlockeRepository.save(squadlocke);
@@ -220,5 +235,32 @@ public class SquadlockeService {
         this.squadlockeRepository.save(squadlocke);
 
         return participant.getBox().getEncounterForLocation(locationId);
+    }
+
+    public SquadlockePokemon evolveEncounter(String gameId, String participantId, String locationId) {
+        Squadlocke squadlocke = this.getSquadlocke(gameId);
+
+        SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
+
+        SquadlockePokemon pokemon = participant.getBox().getEncounterForLocation(locationId);
+
+        if(!pokemon.isAlive()) {
+            return null;
+        }
+
+        EvolutionChain chain = this.pokeApiClient.getEvolutionChain(203);
+
+        List<EvolutionChainItem> evos = chain.getNextEvolution(pokemon.getModel());
+
+        if(evos == null || evos.size() == 0) {
+            return null;
+        }
+
+        String evoName = evos.get(0).getName();
+
+        pokemon.setModel(this.pokeApiClient.getPokemon(evoName));
+
+        this.squadlockeRepository.save(squadlocke);
+        return pokemon;
     }
 }
