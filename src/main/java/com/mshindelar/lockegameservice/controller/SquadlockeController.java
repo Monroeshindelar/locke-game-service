@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,9 +60,9 @@ public class SquadlockeController {
 
     @PostMapping("{gameId}/encounter")
     private Encounter getEncounter(@PathVariable("gameId") String gameId, @RequestParam("participantId") String participantId, @RequestParam("locationId") String locationId,
-                                   @RequestParam("encounterMode") EncounterMode encounterMode,
+                                   @RequestParam("encounterMode") List<EncounterMode> encounterModes,
                                    @RequestParam(value = "filterSpeciesClause", required = false, defaultValue = "false") boolean filterSpeciesClause) {
-        return this.squadlockeService.getEncounter(gameId, participantId, locationId, encounterMode, filterSpeciesClause);
+        return this.squadlockeService.getEncounter(gameId, participantId, locationId, encounterModes, filterSpeciesClause);
     }
 
     @PostMapping("{gameId}/encounter/update")

@@ -190,7 +190,7 @@ public class SquadlockeService {
         return this.squadlockeRepository.findJoinableGames(userId);
     }
 
-    public Encounter getEncounter(String gameId, String participantId, String locationId, EncounterMode encounterMode,
+    public Encounter getEncounter(String gameId, String participantId, String locationId, List<EncounterMode> encounterMode,
                                   boolean filterSpeciesClause) {
         Squadlocke squadlocke = this.getSquadlocke(gameId);
 
@@ -201,7 +201,7 @@ public class SquadlockeService {
         SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
         Encounter encounter = this.encounterGenerationService.getEncounter(participant, "" + squadlocke.getSettings().getGenerationId(),
-                locationId, Collections.singletonList(encounterMode), squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
+                locationId, encounterMode, squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
 
         Pokemon pokemonModel = this.pokeApiClient.getPokemon(encounter.getNationalDexNumber());
 
