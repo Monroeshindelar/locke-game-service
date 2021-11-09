@@ -13,7 +13,7 @@ public class Pokemon {
     private List<Ability> abilities;
     private Set<Type> types;
     private BaseStats baseStats;
-    private int evolutionChainId;
+    private int speciesId;
 
     @JsonProperty("stats")
     public void flattenStats(List<Object> stats) {
@@ -28,13 +28,12 @@ public class Pokemon {
         this.baseStats = baseStatsBuilder.build();
     }
 
-    @JsonProperty("evolution_chain")
-    public void pullEvolutionChainId(List<Object> evolutionChain) {
-        String url = (String) ((LinkedHashMap) evolutionChain).get("name");
+    @JsonProperty("species")
+    public void parseSpeciesId(Map<String, Object> species) {
+        String url = (String) species.get("url");
 
         String[] tokens = url.split("/");
-
-        this.evolutionChainId = Integer.parseInt(tokens[tokens.length - 1]);
+        this.speciesId = Integer.parseInt(tokens[tokens.length - 1]);
     }
 
     @Override

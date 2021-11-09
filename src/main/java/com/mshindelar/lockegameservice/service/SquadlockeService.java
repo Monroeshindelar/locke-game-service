@@ -17,6 +17,7 @@ import com.mshindelar.lockegameservice.pokeapi.PokeApiClient;
 import com.mshindelar.lockegameservice.pokeapi.model.EvolutionChain;
 import com.mshindelar.lockegameservice.pokeapi.model.EvolutionChainItem;
 import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
+import com.mshindelar.lockegameservice.pokeapi.model.PokemonSpecies;
 import com.mshindelar.lockegameservice.repository.GameGenerationRepository;
 import com.mshindelar.lockegameservice.repository.SquadlockeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -248,7 +249,9 @@ public class SquadlockeService {
             return null;
         }
 
-        EvolutionChain chain = this.pokeApiClient.getEvolutionChain(203);
+        PokemonSpecies species = this.pokeApiClient.getPokemonSpecies(pokemon.getModel().getSpeciesId());
+
+        EvolutionChain chain = this.pokeApiClient.getEvolutionChain(species.getEvolutionChainId());
 
         List<EvolutionChainItem> evos = chain.getNextEvolution(pokemon.getModel());
 
