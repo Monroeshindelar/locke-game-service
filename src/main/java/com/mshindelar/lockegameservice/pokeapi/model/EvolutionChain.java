@@ -10,8 +10,8 @@ import java.util.List;
 public class EvolutionChain {
     private int id;
 
-    @JsonProperty("baby_trigger_item")
-    private String babyTriggerItem;
+//    @JsonProperty("baby_trigger_item")
+//    private String babyTriggerItem;
 
     @JsonProperty("chain")
     private EvolutionChainItem chain;
