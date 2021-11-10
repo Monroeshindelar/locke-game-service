@@ -261,7 +261,18 @@ public class SquadlockeService {
 
         String evoName = evos.get(0).getName();
 
-        pokemon.setModel(this.pokeApiClient.getPokemon(evoName));
+        Pokemon evolutionModel = this.pokeApiClient.getPokemon(evoName);
+
+        if(participant.getTeam().getMainTeam().contains(pokemon)) {
+            for(SquadlockePokemon teamMember : participant.getTeam().getMainTeam()) {
+                if(teamMember.equals(pokemon)) {
+                    teamMember.setModel(evolutionModel);
+                    break;
+                }
+            }
+        }
+
+        pokemon.setModel(evolutionModel);
 
         this.squadlockeRepository.save(squadlocke);
         return pokemon;
