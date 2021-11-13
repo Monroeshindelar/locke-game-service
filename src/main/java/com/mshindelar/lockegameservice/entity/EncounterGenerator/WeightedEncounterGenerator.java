@@ -17,7 +17,7 @@ public class WeightedEncounterGenerator extends EncounterGenerator {
 
     @Override
     public Encounter getEncounter(List<Encounter> encounters) {
-        int encounterModeCount = encounters.stream().map(Encounter::getMode).distinct().collect(Collectors.toList()).size();
+        int encounterModeCount = (int) encounters.stream().map(Encounter::getEncounterMode).distinct().count();
 
         Map<Encounter, Double> probabilities = encounters.stream().collect(Collectors.toMap(Function.identity(), e -> e.getDefaultEncounterRate() / encounterModeCount));
 

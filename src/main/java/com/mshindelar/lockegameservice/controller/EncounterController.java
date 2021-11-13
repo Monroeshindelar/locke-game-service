@@ -32,8 +32,8 @@ public class EncounterController {
     }
 
     @GetMapping("{generationId}/{locationId}/modes/all")
-    List<EncounterMode> getAllEncounterModesForLocation(@PathVariable("generationId") String generationId, @PathVariable("locationId") String locationId) {
-        return this.encounterGenerationService.getAllEncounterModesForLocation(generationId, locationId);
+    List<EncounterMode> getAllEncounterModesForLocation(@PathVariable("generationId") String generationId, @PathVariable("locationId") String locationId, @RequestParam("gameId") int gameId) {
+        return this.encounterGenerationService.getAllEncounterModesForLocation(generationId, gameId, locationId);
     }
 
 }

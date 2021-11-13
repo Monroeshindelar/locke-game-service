@@ -37,9 +37,9 @@ public class EncounterGenerationService {
         return this.encounterRepository.findAllEncountersForLocation(generationId, locationId, gameId);
     }
 
-    public List<EncounterMode> getAllEncounterModesForLocation(String generationId, String locationId) {
-        return this.encounterRepository.findAll().stream()
-                .map(Encounter::getMode)
+    public List<EncounterMode> getAllEncounterModesForLocation(String generationId, int gameId, String locationId) {
+        return this.encounterRepository.findAllEncountersForGameAndLocation(generationId, gameId, locationId).stream()
+                .map(Encounter::getEncounterMode)
                 .distinct()
                 .collect(Collectors.toList());
     }
