@@ -134,6 +134,7 @@ public class Box {
      */
     public final List<String> getEncounterLocations() {
         return this.contents.stream()
+                .filter(i -> !i.isPlaceholder() && i.isCaught())
                 .map(BoxItem::getPokemon)
                 .map(SquadlockePokemon::getLocationId)
                 .collect(Collectors.toList());
