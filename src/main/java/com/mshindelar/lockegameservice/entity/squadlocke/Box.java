@@ -32,7 +32,7 @@ public class Box {
 
             // Checks to see if the user had a valid species clause
             // placeholder that we should overwrite
-            if(i.isPlaceholder() && this.containsSpecies(pokemon)) {
+            if(i.isPlaceholder() && this.containsSpecies(i.getPokemon())) {
                 this.remove(i.getPokemon());
             } else {
                 throw new DuplicateEncounterException("Cannot catch pokemon. Encounter for " + pokemon.getLocationId() + " already exists");
