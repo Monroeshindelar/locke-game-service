@@ -43,4 +43,11 @@ public class EncounterGenerationService {
                 .distinct()
                 .collect(Collectors.toList());
     }
+
+    public List<String> getAllEncounterLocationsForGeneration(String generationId, int gameId) {
+        return this.encounterRepository.findAllEncountersForGame(generationId, gameId).stream()
+                .map(Encounter::getLocationId)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }

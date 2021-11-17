@@ -204,6 +204,7 @@ public class SquadlockeService {
                 locationId, encounterMode, squadlocke.getSettings().getEncounterGeneratorSettings(), filterSpeciesClause);
 
         Pokemon pokemonModel = this.pokeApiClient.getPokemon(encounter.getNationalDexNumber());
+        PokemonSpecies pokemonSpecies = this.pokeApiClient.getPokemonSpecies(pokemonModel.getSpeciesId());
 
         SquadlockePokemon dummy = new SquadlockePokemon();
 

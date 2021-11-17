@@ -74,7 +74,7 @@ public class Box {
     public boolean containsSpecies(int nationalDexNumber) {
         return this.contents.stream()
                 .filter(i -> !i.isPlaceholder() && i.isCaught())
-                .anyMatch(i -> i.getPokemon().getModel().getId() == nationalDexNumber);
+                .anyMatch(i -> ((i.getPokemon().getModel().getId() == nationalDexNumber)));
     }
 
     public boolean containsSpecies(Pokemon pokemon) { return containsSpecies(pokemon.getId()); }

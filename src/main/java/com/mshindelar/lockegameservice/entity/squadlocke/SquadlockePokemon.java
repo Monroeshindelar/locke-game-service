@@ -2,6 +2,7 @@ package com.mshindelar.lockegameservice.entity.squadlocke;
 
 import com.mshindelar.lockegameservice.pokeapi.model.Ability;
 import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
+import com.mshindelar.lockegameservice.pokeapi.model.PokemonSpecies;
 import lombok.Data;
 
 import java.util.Date;
