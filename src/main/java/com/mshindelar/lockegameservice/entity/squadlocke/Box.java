@@ -130,11 +130,13 @@ public class Box {
     }
 
     /**
-     * Gets list of all encounters for location
+     * Gets list of all encounters for location.
+     * Filters out locations for pokemon that are placeholders because
+     * they can be re-rolled
      */
     public final List<String> getEncounterLocations() {
         return this.contents.stream()
-                .filter(i -> !i.isPlaceholder() && i.isCaught())
+                .filter(i -> !i.isPlaceholder())
                 .map(BoxItem::getPokemon)
                 .map(SquadlockePokemon::getLocationId)
                 .collect(Collectors.toList());
