@@ -194,9 +194,9 @@ public class SquadlockeService {
                                   boolean filterSpeciesClause) {
         Squadlocke squadlocke = this.getSquadlocke(gameId);
 
-        if(squadlocke.getGameState().getGameStateType() != GameStateType.CHECKPOINT) {
-            throw new ImproperGameStateException("Cannot get an encounter outside of the checkpoint gamestate.");
-        }
+//        if(squadlocke.getGameState().getGameStateType() != GameStateType.CHECKPOINT) {
+//            throw new ImproperGameStateException("Cannot get an encounter outside of the checkpoint gamestate.");
+//        }
 
         SquadlockeParticipant participant = squadlocke.getParticipantById(participantId);
 
