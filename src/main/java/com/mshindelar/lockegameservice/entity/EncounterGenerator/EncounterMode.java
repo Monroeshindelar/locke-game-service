@@ -4,5 +4,8 @@ public enum EncounterMode {
     MORNING,
     DAY,
     NIGHT,
-    SURF
+    SURF,
+    OLD_ROD,
+    GOOD_ROD,
+    SUPER_ROD
 }
