@@ -2,9 +2,11 @@ package com.mshindelar.lockegameservice.entity.squadlocke;
 
 import com.mshindelar.lockegameservice.exception.DuplicateEncounterException;
 import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
+import com.mshindelar.lockegameservice.pokeapi.model.PokemonSpecies;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Box {
@@ -32,7 +34,7 @@ public class Box {
 
             // Checks to see if the user had a valid species clause
             // placeholder that we should overwrite
-            if(i.isPlaceholder() && this.containsSpecies(i.getPokemon())) {
+            if(i.isPlaceholder() && this.containsSpecies(pokemon)) {
                 this.remove(i.getPokemon());
             } else {
                 throw new DuplicateEncounterException("Cannot catch pokemon. Encounter for " + pokemon.getLocationId() + " already exists");
@@ -43,7 +45,8 @@ public class Box {
         // it can automatically be flagged as not a placeholder.
         // Placeholder indicates that the user encountered a pokemon that they
         // have already caught and can reroll.
-        item.setPlaceholder(this.containsSpecies(pokemon));
+        //item.setPlaceholder(this.containsSpecies(pokemon));
+        item.setPlaceholder(this.containsSpecies(pokemon.getSpecies().getEvolutionChainId()));
 
         item.setCaught(false);
 
@@ -71,15 +74,13 @@ public class Box {
      * @return True if a pokemon with the national dex number that has been caught
      * is found. False if no such pokemon exists in the box.
      */
-    public boolean containsSpecies(int nationalDexNumber) {
+    public boolean containsSpecies(int evolutionChainId) {
         return this.contents.stream()
                 .filter(i -> !i.isPlaceholder() && i.isCaught())
-                .anyMatch(i -> ((i.getPokemon().getModel().getId() == nationalDexNumber)));
+                .anyMatch(i -> i.getPokemon().getSpecies().getEvolutionChainId() == evolutionChainId);
     }
 
-    public boolean containsSpecies(Pokemon pokemon) { return containsSpecies(pokemon.getId()); }
-
-    public boolean containsSpecies(SquadlockePokemon pokemon) { return this.containsSpecies(pokemon.getModel()); }
+    public boolean containsSpecies(SquadlockePokemon pokemon) { return this.containsSpecies(pokemon.getSpecies().getEvolutionChainId()); }
 
     /**
      * Searches box to see if there is a pokemon that has been encountered

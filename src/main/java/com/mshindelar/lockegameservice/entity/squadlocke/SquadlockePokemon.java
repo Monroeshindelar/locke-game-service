@@ -11,6 +11,7 @@ import java.util.Objects;
 @Data
 public class SquadlockePokemon {
     private Pokemon model;
+    private PokemonSpecies species;
     private boolean isAlive;
     private boolean isShiny;
     private String nickname;
@@ -25,12 +26,11 @@ public class SquadlockePokemon {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SquadlockePokemon that = (SquadlockePokemon) o;
-        return isAlive == that.isAlive && isShiny == that.isShiny && Objects.equals(model, that.model) && Objects.equals(nickname, that.nickname) && nature == that.nature
-                && Objects.equals(ability, that.ability) && Objects.equals(locationId, that.locationId) && Objects.equals(encounteredAt, that.encounteredAt);
+        return isAlive == that.isAlive && isShiny == that.isShiny && Objects.equals(model, that.model) && Objects.equals(species, that.species) && Objects.equals(nickname, that.nickname) && nature == that.nature && gender == that.gender && Objects.equals(ability, that.ability) && Objects.equals(locationId, that.locationId) && Objects.equals(encounteredAt, that.encounteredAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, isAlive, isShiny, nickname, nature, ability, locationId, encounteredAt);
+        return Objects.hash(model, species, isAlive, isShiny, nickname, nature, gender, ability, locationId, encounteredAt);
     }
 }

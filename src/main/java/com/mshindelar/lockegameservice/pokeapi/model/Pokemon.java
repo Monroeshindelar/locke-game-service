@@ -13,6 +13,7 @@ public class Pokemon {
     private Set<Type> types;
     private BaseStats baseStats;
     private int speciesId;
+    private PokemonSpecies species;
 
     @JsonProperty("stats")
     public void flattenStats(List<Object> stats) {

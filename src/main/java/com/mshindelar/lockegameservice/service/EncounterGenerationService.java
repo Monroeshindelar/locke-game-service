@@ -3,6 +3,9 @@ package com.mshindelar.lockegameservice.service;
 import com.mshindelar.lockegameservice.entity.EncounterGenerator.*;
 import com.mshindelar.lockegameservice.entity.generic.GameGeneration;
 import com.mshindelar.lockegameservice.entity.squadlocke.SquadlockeParticipant;
+import com.mshindelar.lockegameservice.pokeapi.PokeApiClient;
+import com.mshindelar.lockegameservice.pokeapi.model.Pokemon;
+import com.mshindelar.lockegameservice.pokeapi.model.PokemonSpecies;
 import com.mshindelar.lockegameservice.repository.EncounterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,20 @@ public class EncounterGenerationService {
     @Autowired
     private EncounterGeneratorFactory encounterGeneratorFactory;
 
+    @Autowired
+    private PokeApiClient pokeApiClient;
+
     public Encounter getEncounter(SquadlockeParticipant participant, String generationId, String locationId, List<EncounterMode> modes,
                                   EncounterGeneratorSettings settings, boolean filterSpeciesClause) {
         List<Encounter> encounters = this.encounterRepository.findEncountersForLocationByMode(generationId, participant.getGameId(), locationId, modes);
 
         if(filterSpeciesClause) {
             encounters = encounters.stream()
-                    .filter(e -> !participant.getBox().containsSpecies(e.getNationalDexNumber()))
+                    .filter(e -> {
+                        Pokemon pokemon = this.pokeApiClient.getPokemon(e.getNationalDexNumber());
+                        PokemonSpecies species = this.pokeApiClient.getPokemonSpecies(pokemon.getSpeciesId());
+                        return !participant.getBox().containsSpecies(species.getEvolutionChainId());
+                    })
                     .collect(Collectors.toList());
         }
 

@@ -209,6 +209,7 @@ public class SquadlockeService {
         SquadlockePokemon dummy = new SquadlockePokemon();
 
         dummy.setModel(pokemonModel);
+        dummy.setSpecies(pokemonSpecies);
         dummy.setLocationId(locationId);
         dummy.setEncounteredAt(new Date());
         dummy.setAlive(false);
