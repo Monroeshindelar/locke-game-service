@@ -34,7 +34,7 @@ public class Box {
 
             // Checks to see if the user had a valid species clause
             // placeholder that we should overwrite
-            if(i.isPlaceholder() && this.containsSpecies(pokemon)) {
+            if(i.isPlaceholder() && this.containsSpecies(i.getPokemon())) {
                 this.remove(i.getPokemon());
             } else {
                 throw new DuplicateEncounterException("Cannot catch pokemon. Encounter for " + pokemon.getLocationId() + " already exists");
@@ -45,7 +45,6 @@ public class Box {
         // it can automatically be flagged as not a placeholder.
         // Placeholder indicates that the user encountered a pokemon that they
         // have already caught and can reroll.
-        //item.setPlaceholder(this.containsSpecies(pokemon));
         item.setPlaceholder(this.containsSpecies(pokemon.getSpecies().getEvolutionChainId()));
 
         item.setCaught(false);
