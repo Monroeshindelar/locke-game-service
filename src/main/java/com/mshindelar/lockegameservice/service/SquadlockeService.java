@@ -111,6 +111,7 @@ public class SquadlockeService {
         starter.setEncounteredAt(new Date());
         starter.setLocationId("starter");
         starter.setModel(this.pokeApiClient.getPokemon(starterId));
+        starter.setSpecies(this.pokeApiClient.getPokemonSpecies(starter.getModel().getSpeciesId()));
 
         squadlockeParticipant.getBox().add(starter);
 
